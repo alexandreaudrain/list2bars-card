@@ -47,19 +47,18 @@ icon: 'mdi:water-pump'
 
 ![Up](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/up.jpg?raw=true)
 
-
 ## Options
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
 | type | string | **Required** | `custom:list2bars-card`
-| decimal | number | none | The amount of decimals to be displayed for the value.
 | entity | string | **Required** | Entity with states as a list, or a simple state
 | attribute | string | none | Tells with values should be displayed. See [Attribute Options](#attribute-options).
 | background | boolean | true | Displays a background behind the card.
-| color | string | var(--custom-bar-card-color, var(--primary-color)) | Default color of each bars, unless it's overwritten by severity.. See [Severity Options](#severity-options).
+| color | string | var(--custom-bar-card-color, var(--primary-color)) | Default color of each bars, unless it's overwritten by severity. See [Severity Options](#severity-options).
 | color_background | boolean | true | Displays a background behind each bar.
 | complementary | boolean | false | Displays complementary value (max - state_value) instead state value.
+| decimal | number | none | The amount of decimals to be displayed for the value.
 | direction | string | right | Direction of the bar. `right`, `up`.
 | height | string | 40px | Defines the height of each bars.
 | icon | string | icon | Defines the icon to be displayed.
@@ -146,7 +145,7 @@ color_background: true
 
 ### Colors
 
-![Colors](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/direction-right.jpg?raw=true)
+![Colors](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/right.jpg?raw=true)
 
 ```yaml
 entity: sensor.suez_water_client
@@ -158,7 +157,7 @@ color_background: true
 
 ### Severity
 
-![Severity](https://github.com/custom-cards/bar-card/blob/master/images/severity.gif?raw=true)
+![Severity](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/right.jpg?raw=true)
 
 ```yaml
 entity: sensor.example
@@ -176,45 +175,6 @@ severity:
     to: 100
 ```
 
-### Entity Row
-
-![Entity Row](https://github.com/custom-cards/bar-card/blob/master/images/entity_row.gif?raw=true)
-
-```yaml
-entities:
-  - sensor.example
-  - entity: sensor.example
-    positions:
-      minmax: inside
-    entity_row: true
-    target: 50
-    type: 'custom:list2bars-card'
-  - entity: light.group_bedroom
-    name: Example
-title: Entity Row
-type: entities
-```
-
-### Direction
-
-![Direction](https://github.com/custom-cards/bar-card/blob/master/images/direction.gif?raw=true)
-
-```yaml
-entities:
-  - sensor.example
-  - sensor.example
-  - sensor.example
-title: Direction
-direction: up
-height: 200px
-stack: horizontal
-type: 'custom:list2bars-card'
-```
-
 ## Credits
 
 Inspired by [Bar Card](https://github.com/custom-cards/bar-card) and [Mini Graph Card](https://github.com/kalkih/mini-graph-card).
-
-## Links
-
-[Home Assistant Community Topic](https://community.home-assistant.io/t/lovelace-bar-card/87503)
