@@ -11,6 +11,7 @@ module.exports = {
         experimentalDecorators: true,
     },
     rules: {
-        "@typescript-eslint/camelcase": 0
+        "@typescript-eslint/camelcase": 0,
+        "@typescript-eslint/ban-ts-ignore": "off"
     }
 };

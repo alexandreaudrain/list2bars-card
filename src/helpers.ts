@@ -1,6 +1,6 @@
 import { PropertyValues } from 'lit-element';
 import { HomeAssistant } from 'custom-card-helpers';
-import { List2BarsConfig } from './types';
+import { List2BarsCardConfig } from './types';
 
 /**
  * Performs a deep merge of objects and returns new object. Does not modify
@@ -31,70 +31,9 @@ export function mergeDeep(...objects: any): any {
   }, {});
 }
 
-export function mapRange(num: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+/*export function mapRange(num: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
   return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
-}
-
-// Check if config or Entity changed
-export function hasConfigOrEntitiesChanged(element: any, changedProps: PropertyValues, forceUpdate: boolean): boolean {
-  if (changedProps.has('config') || forceUpdate) {
-    return true;
-  }
-  for (const config of element._configArray) {
-    if (config.entity) {
-      const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
-      if (oldHass) {
-        if (oldHass.states[config.entity] !== element.hass!.states[config.entity]) {
-          return true;
-        } else {
-          continue;
-        }
-      }
-      return true;
-    }
-  }
-  return false;
-}
-
-export function createConfigArray(config): List2BarsConfig[] {
-  const configArray: List2BarsConfig[] = [];
-  if (config.entities) {
-    for (const entityConfig of config.entities) {
-      if (typeof entityConfig == 'string') {
-        const clonedObject = mergeDeep({}, config);
-        delete clonedObject.entities;
-        const stringConfig = mergeDeep(clonedObject, { entity: entityConfig });
-        configArray.push(stringConfig);
-      } else if (typeof entityConfig == 'object') {
-        const clonedObject = mergeDeep({}, config);
-        delete clonedObject.entities;
-        const objectConfig = mergeDeep(clonedObject, entityConfig);
-        configArray.push(objectConfig);
-      }
-    }
-  } else {
-    configArray.push(config);
-  }
-  return configArray;
-}
-
-export function createEditorConfigArray(config): List2BarsConfig[] {
-  const configArray: List2BarsConfig[] = [];
-  if (config.entities) {
-    for (const entityConfig of config.entities) {
-      if (typeof entityConfig == 'string') {
-        const stringConfig = mergeDeep({}, { entity: entityConfig });
-        configArray.push(stringConfig);
-      } else if (typeof entityConfig == 'object') {
-        const objectConfig = mergeDeep({}, entityConfig);
-        configArray.push(objectConfig);
-      }
-    }
-  } else {
-    configArray.push(config);
-  }
-  return configArray;
-}
+}*/
 
 export function arrayMove(arr, fromIndex, toIndex): any[] {
   const element = arr[fromIndex];

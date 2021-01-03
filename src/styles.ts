@@ -2,6 +2,99 @@ import { html } from 'lit-element';
 
 export const styles = html`
   <style>
+    :host {
+      display: flex;
+      flex-direction: column;
+    }
+    ha-card {
+      flex-direction: column;
+      flex: 1;
+      padding: 16px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    ha-card > div {
+      padding: 0px 16px 8px 16px;
+    }
+    ha-card > div:last-child {
+      padding-bottom: 0;
+    }
+    ha-card[group] {
+      box-shadow: none;
+      padding: 0;
+    }
+    ha-card[group] > div {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    ha-card[hover] {
+      cursor: pointer;
+    }
+    .flex {
+      display: flex;
+      display: -webkit-flex;
+      min-width: 0;
+    }
+    .header {
+      justify-content: space-between;
+    }
+    .name {
+      align-items: center;
+      min-width: 0;
+      letter-spacing: var(--mcg-title-letter-spacing, normal);
+    }
+    .name > span {
+      font-size: 1.4em;
+      font-weight: var(--mcg-title-font-weight, 500);
+      max-height: 1.6em;
+      min-height: 1.6em;
+      opacity: 0.85;
+    }
+    .ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .states {
+      align-items: flex-start;
+      font-weight: 300;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+    .state {
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .state__value {
+      display: inline-block;
+      font-size: 2.4em;
+      margin-right: 0.25rem;
+      line-height: 1.2em;
+    }
+    .state__uom {
+      flex: 1;
+      align-self: flex-end;
+      display: inline-block;
+      font-size: 1.4em;
+      font-weight: 400;
+      line-height: 1.6em;
+      margin-top: 0.1em;
+      opacity: 0.6;
+      vertical-align: bottom;
+    }
+    .state__name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      bottom: -1.1rem;
+      left: 0;
+      opacity: 0.75;
+      position: absolute;
+      white-space: nowrap;
+      animation: fade 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
     .warning {
       display: block;
       color: black;
@@ -12,71 +105,40 @@ export const styles = html`
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      margin-top: 8px;
     }
     #states > * {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
-    #states > :last-child {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-    #states > :first-child {
-      margin-top: 0px;
-    }
-    ha-card {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    list2bars-row {
-      display: flex;
-      flex-grow: 1;
-    }
-    list2bars-row > div {
-      flex-basis: 100%;
-    }
-    list2bars-row:empty {
-      display: none;
-    }
-    list2bars-card {
+    list2bars-card-card {
       display: flex;
       flex-basis: 100%;
       flex-direction: row;
-      margin-right: 8px;
+      margin-right: 2px;
     }
-    list2bars-card:last-child {
-      margin-right: 0px;
+    list2bars-card-card:hover {
+      opacity: 0.5;
+      cursor: pointer;
     }
-    list2bars-background {
+    list2bars-card-background {
       cursor: pointer;
       flex-grow: 1;
       position: relative;
     }
-    list2bars-iconbar {
-      color: var(--icon-color, var(--paper-item-icon-color));
-      align-items: center;
-      align-self: center;
-      display: flex;
-      height: 40px;
-      justify-content: center;
-      position: relative;
-      width: 40px;
-    }
-    list2bars-currentbar,
-    list2bars-backgroundbar,
-    list2bars-contentbar,
-    list2bars-targetbar,
-    list2bars-animationbar {
+    list2bars-card-currentbar,
+    list2bars-card-backgroundbar,
+    list2bars-card-contentbar {
       position: absolute;
       height: 100%;
       width: 100%;
-      border-radius: var(--list2bars-border-radius, var(--ha-card-border-radius));
     }
-    list2bars-contentbar {
+    list2bars-card-contentbar {
       align-items: center;
       color: var(--primary-text-color);
       display: flex;
       justify-content: flex-start;
+      margin-left: 1px;
+      margin-right: 1px;
     }
     .contentbar-direction-right {
       flex-direction: row;
@@ -84,12 +146,12 @@ export const styles = html`
     .contentbar-direction-up {
       flex-direction: column;
     }
-    list2bars-backgroundbar {
+    list2bars-card-backgroundbar {
       background: var(--bar-color);
       filter: brightness(0.5);
       opacity: 0.25;
     }
-    list2bars-currentbar {
+    list2bars-card-currentbar {
       background: linear-gradient(
         to var(--bar-direction),
         var(--bar-color) var(--bar-percent),
@@ -97,92 +159,7 @@ export const styles = html`
         #0000 var(--bar-percent)
       );
     }
-    list2bars-targetbar {
-      background: linear-gradient(
-        to var(--bar-direction),
-        #0000 var(--bar-percent),
-        var(--bar-color) var(--bar-percent),
-        var(--bar-color) var(--bar-target-percent),
-        #0000 var(--bar-target-percent)
-      );
-      display: var(--target-display);
-      filter: brightness(0.66);
-      opacity: 0.33;
-    }
-    list2bars-markerbar {
-      background: var(--bar-color);
-      filter: brightness(0.75);
-      opacity: 50%;
-      position: absolute;
-    }
-    list2bars-animationbar {
-      background-repeat: no-repeat;
-      filter: brightness(0.75);
-      opacity: 0%;
-    }
-    .animationbar-horizontal {
-      background: linear-gradient(to var(--animation-direction), var(--bar-color) 0%, var(--bar-color) 1%, #0000 1%);
-    }
-    .animationbar-vertical {
-      background: linear-gradient(to var(--animation-direction), #0000 0%, #0000 1%, var(--bar-color) 1%);
-    }
-    @keyframes animation-increase {
-      0% {
-        opacity: 50%;
-        background-size: var(--bar-percent) 100%;
-      }
-      100% {
-        opacity: 0%;
-        background-size: 10000% 100%;
-      }
-    }
-    @keyframes animation-decrease {
-      0% {
-        opacity: 0%;
-        background-size: 10000%;
-      }
-      100% {
-        opacity: 50%;
-        background-size: var(--bar-percent);
-      }
-    }
-    @keyframes animation-increase-vertical {
-      0% {
-        opacity: 50%;
-        background-size: 100% var(--bar-percent);
-      }
-      100% {
-        background-size: 100% 0%;
-        opacity: 0%;
-      }
-    }
-    @keyframes animation-decrease-vertical {
-      0% {
-        background-size: 100% 100%;
-        opacity: 0%;
-      }
-      100% {
-        opacity: 50%;
-        background-size: 100% var(--bar-percent);
-      }
-    }
-    list2bars-indicator {
-      align-self: center;
-      color: var(--bar-color);
-      filter: brightness(0.75);
-      height: 16px;
-      width: 16px;
-      position: relative;
-      text-align: center;
-    }
-    .indicator-direction-right {
-      margin-right: -16px;
-      left: -6px;
-    }
-    .indicator-direction-up {
-      margin: 4px;
-    }
-    list2bars-name {
+    list2bars-card-name {
       align-items: center;
       align-self: center;
       justify-content: center;
@@ -192,42 +169,16 @@ export const styles = html`
       text-align: left;
       text-overflow: ellipsis;
     }
-    .name-outside {
-      margin-left: 16px;
-    }
-    list2bars-value,
-    list2bars-min,
-    list2bars-max,
-    list2bars-divider {
+    list2bars-card-value {
       align-self: center;
       position: relative;
     }
-    list2bars-min,
-    list2bars-max,
-    list2bars-divider {
-      font-size: 10px;
-      margin: 2px;
-      opacity: 0.5;
-    }
-    .min-direction-up {
-      margin-top: auto;
-    }
-    .min-direction-right {
-      margin-left: auto;
-    }
-    list2bars-divider {
-      margin-left: 0px;
-      margin-right: 0px;
-    }
-    list2bars-value {
+    list2bars-card-value {
       white-space: nowrap;
       margin: 4px;
     }
     .value-direction-right {
       margin-left: auto;
-    }
-    .value-direction-up {
-      margin-top: auto;
     }
   </style>
 `;

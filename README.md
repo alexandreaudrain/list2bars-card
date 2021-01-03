@@ -1,48 +1,96 @@
-# bar-card
+# list2bars-card
+
+A customizable card for Home Assistant Lovelace UI.
+My first TypeScript development, and my first Home Assistant experience, so please, be forgiving. :)
+
+It's really inspired (/ copied) from the excellent Bar Card and Mini Graph card ([Credits](#credits)).
+
+I was looking for a card to display some values returned by sensors in the form of lists (Suez water, Enedis linky, ...). Unfortunatly, it's not the way Home Assistant operates with normal sensors (I couldn't choose what value to display and when it occured).
+With list2bars-card, you can rendered values like these (default state / this_month_consumption / last_year_overall / ...) :
+
+```yaml
+attribution: Data provided by toutsurmoneau.fr
+this_month_consumption:
+  01/12/2020: 84
+  02/12/2020: 67
+  03/12/2020: 61
+  ...
+  28/12/2020: 152
+  29/12/2020: 135
+  30/12/2020: 98
+  31/12/2020: 122
+previous_month_consumption:
+  01/11/2020: 226
+  02/11/2020: 127
+  03/11/2020: 92
+  ...
+  29/11/2020: 230
+  30/11/2020: 117
+highest_monthly_consumption: 6719
+last_year_overall: 24304
+this_year_overall: 61220
+history:
+  Août 2019: 4803
+  Septembre 2019: 4882
+  Octobre 2019: 4969
+  ...
+  Novembre 2020: 4069
+  Décembre 2020: 3837
+unit_of_measurement: L
+friendly_name: Suez Water Client
+icon: 'mdi:water-pump'
+```
 
 ## [Examples](#examples-1)
 
-![Default](https://github.com/custom-cards/bar-card/blob/master/images/default.gif?raw=true)
+![Right](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/right.jpg?raw=true)
 
-![Severity](https://github.com/custom-cards/bar-card/blob/master/images/severity.gif?raw=true)
+![Up](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/up.jpg?raw=true)
 
-![Entity Row](https://github.com/custom-cards/bar-card/blob/master/images/entity_row.gif?raw=true)
-
-![Direction](https://github.com/custom-cards/bar-card/blob/master/images/direction.gif?raw=true)
-
-![Old Layout](https://github.com/custom-cards/bar-card/blob/master/images/old_layout.gif?raw=true)
-
-![Custom CSS](https://github.com/custom-cards/bar-card/blob/master/images/customcss.gif?raw=true)
 
 ## Options
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
-| type | string | **Required** | `custom:bar-card`
-| entity | string | **Required** | Entity State
-| animation | object | none | Defines animation options. See [Animation Options](#animation-options).
-| attribute | string | none | Displays a specific attribute instead of state value.
-| color | string | var(--custom-bar-card-color, var(--primary-color)) | Color of the bar.
-| columns | number | none | Defines the amount of bars to be displayed on a single row when multiple entities are defined.
-| complementary | boolean | false | Displays complementary value (max - state_value) instead state value.
+| type | string | **Required** | `custom:list2bars-card`
 | decimal | number | none | The amount of decimals to be displayed for the value.
-| direction | string | right | Direction of the bar. `right`, `up`
-| entities | array | none | A list of entities. Accepts individual config options per defined entity.
-| entity_config | boolean | false | Sets the card to use the configured entity attributes as the card config.
-| entity_row | boolean | false | Removes the background card for use inside entities card.
-| height | string | 40px | Defines the height of the bar.
+| entity | string | **Required** | Entity with states as a list, or a simple state
+| attribute | string | none | Tells with values should be displayed. See [Attribute Options](#attribute-options).
+| background | boolean | true | Displays a background behind the card.
+| color | string | var(--custom-bar-card-color, var(--primary-color)) | Default color of each bars, unless it's overwritten by severity.. See [Severity Options](#severity-options).
+| color_background | boolean | true | Displays a background behind each bar.
+| complementary | boolean | false | Displays complementary value (max - state_value) instead state value.
+| direction | string | right | Direction of the bar. `right`, `up`.
+| height | string | 40px | Defines the height of each bars.
 | icon | string | icon | Defines the icon to be displayed.
+| index_from | number | 1 | Index where to start display. See [Index Options](#index-options).
+| index_to | number | length of your list | Index where to end display. See [Index Options](#index-options).
 | limit_value | boolean | false | Limits value displayed to `min` and `max` value.
-| max | number | 100 | Defines maximum value of the bar.
-| min | number | 0 | Defines minimum value of the bar.
-| name | string | none | Defines custom entity name.
-| positions | object | none | Defines the positions of the card elements. See [Positions Options](#positions-options).
+| max | number | max value found in list | Defines maximum value of the bars.
+| min | number | 0 | Defines minimum value of the bars.
+| positions | object | none | Defines if some card elements will be rendered or not. See [Display Options](#display-options).
 | severity | object | none | A list of severity values. See [Severity Options](#severity-options).
-| tap_action | object | none | See [home assistant documentation](https://www.home-assistant.io/lovelace/actions/).
-| target | number | none | Defines and enables target marker value.
 | title | string | none | Adds title header to the card.
 | unit_of_measurement | string | attribute | Defines the unit of measurement to be displayed.
-| width | string | 100% | Defines the width of the bar.
+
+## Attribute Options
+
+| Value | Description
+| ----------- | -----------
+| `none` | will display default entity state
+| attribute name (single data) | will display attribute's value
+| attribute name (list) | will display list instead of state value
+
+## Index Options
+
+| Name | Value | Description | Example with months from January to December
+| ---- | ------- | ----------- | -----------
+| index_from | `none` | Will start the display form the first element | January, February, ...
+| index_from | number >= 0 | Will start the display form the given index | For index_from = 3 : March, April, ...
+| index_from | number < 0 | Will start the display backward form the end of the list. Usefull if you want to display a full year from a list containing more than 12 months. | For index_from = -4 : September, October, ...
+| index_to | `none` | Will display the list up to the end | ..., November, Decembre
+| index_to | number >= 0 | Will stop the display at the given index | For index_to = 4 : ..., March, April
+| index_to | number < 0 | Will stop N values before the end of the list. | For index_to = -4 : ..., July, August
 
 ## Severity Options
 
@@ -50,58 +98,16 @@
 | ---- | ---- | ------- | -----------
 | from | number | **Required** | Defines from which value the color should be displayed.
 | to | number | **Required** | Defines to which value the color should be displayed.
-| color | string | **Required** | Defines the color to be displayed.
-| icon | string | none | Defines the icon to be displayed.
+| color | string | `none` | Defines the color to be displayed.
 | hide | boolean | false | Hides the bar if conditions are met.
 
-## Animation Options
+## Display Options
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
-| state | string | off | Enables or disables animation. `on`, `off`
-| speed | number | 5 | Defines the speed of the bar animation in seconds.
-
-## Positions Options
-
-| Name | Type | Default | Description
-| ---- | ---- | ------- | -----------
-| icon | string | outside | `inside`, `outside`, `off`
-| indicator | string | outside | `inside`, `outside`, `off`
-| name | string | inside | `inside`, `outside`, `off`
-| minmax | string | off | `inside`, `outside`, `off`
-| value | string | inside | `inside`, `outside`, `off`
-
-## Theme Variables
-
-| Name | Description
-| ---- | ----
-| bar-card-color | Defines the default bar color.
-| bar-card-border-radius | Defines the default border radius of the bar.
-| bar-card-disabled-color | Defines the bar color when state is `unavailable`.
-
-## CSS Elements
-
-See [example](#200-default-layout-requires-card-mod). (**requires** [card-mod](https://github.com/thomasloven/lovelace-card-mod))
-
-| Name | Description
-| ---- | ----
-| #states | HA states containing all rows.
-| bar-card-card | The root bar of each defined entity containing all elements.
-| bar-card-background | Contains bar and any elements `outside` of the bar.
-| bar-card-backgroundbar | The background of the bar.
-| bar-card-currentbar | The filled part of the bar.
-| bar-card-contentbar | Contains all elements `inside` of the bar.
-| ha-icon | Icon element.
-| bar-card-iconbar | Contains ha-icon.
-| bar-card-name | Name element.
-| bar-card-min | Min value element.
-| bar-card-divider | Min/Max divider element.
-| bar-card-max | Max value element.
-| bar-card-value | Value element.
-| bar-card-animationbar | Animated part of the bar.
-| bar-card-targetbar | Target bar element.
-| bar-card-markerbar | Target marker element.
-| bar-card-indicator | Indicator element.
+| icon | string | on | `on`, `off`
+| name | string | on | `on`, `off`
+| value | string | on | `on`, `off`
 
 ## Installation
 
@@ -110,20 +116,44 @@ Prefered method of installation is [Home Assistant Community Store](https://gith
 It's **required** to load this card as `module`.
 
 ```yaml
-- url: /hacsfiles/bar-card/bar-card.js
+- url: /hacsfiles/list2bars-card/list2bars-card.js
   type: module
 ```
 
 ## Examples
 
-### Default
+### Direction
 
-![Default](https://github.com/custom-cards/bar-card/blob/master/images/default.gif?raw=true)
+![Right](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/direction-right.jpg?raw=true)
 
 ```yaml
-entity: sensor.example
-title: Default
-type: 'custom:bar-card'
+entity: sensor.suez_water_client
+direction: right
+title: Suez
+attribute: history
+color_background: true
+```
+
+![Up](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/direction-up.jpg?raw=true)
+
+```yaml
+entity: sensor.suez_water_client
+direction: up
+title: Suez
+attribute: history
+color_background: true
+```
+
+### Colors
+
+![Colors](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/direction-right.jpg?raw=true)
+
+```yaml
+entity: sensor.suez_water_client
+direction: right
+title: Suez
+attribute: history
+color_background: true
 ```
 
 ### Severity
@@ -133,7 +163,7 @@ type: 'custom:bar-card'
 ```yaml
 entity: sensor.example
 title: Severity
-type: 'custom:bar-card'
+type: 'custom:list2bars-card'
 severity:
   - color: Red
     from: 0
@@ -158,7 +188,7 @@ entities:
       minmax: inside
     entity_row: true
     target: 50
-    type: 'custom:bar-card'
+    type: 'custom:list2bars-card'
   - entity: light.group_bedroom
     name: Example
 title: Entity Row
@@ -178,77 +208,12 @@ title: Direction
 direction: up
 height: 200px
 stack: horizontal
-type: 'custom:bar-card'
-```
-
-### 2.0.0 Default Layout (**requires** [card-mod](https://github.com/thomasloven/lovelace-card-mod))
-
-![Old Layout](https://github.com/custom-cards/bar-card/blob/master/images/old_layout.gif?raw=true)
-
-```yaml
-entity: sensor.example
-positions:
-  icon: 'off'
-  indicator: inside
-  name: outside
-type: 'custom:bar-card'
-width: 70%
-title: 2.0.0 Default Layout
-style: |-
-  bar-card-value {
-    margin-right: auto;
-    font-size: 13px;
-    font-weight: bold;
-    text-shadow: 1px 1px #0005;
-  }
-```
-
-### Custom CSS Layout (**requires** [card-mod](https://github.com/thomasloven/lovelace-card-mod))
-
-![Custom CSS](https://github.com/custom-cards/bar-card/blob/master/images/customcss.gif?raw=true)
-
-```yaml
-entities:
-  - entity: sensor.example
-positions:
-  icon: 'off'
-  indicator: 'off'
-  minmax: inside
-  title: inside
-  value: inside
-style: |-
-  .contentbar-direction-right {
-   flex-direction: column;
-  }
-  .min-direction-right {
-    margin: 0px;
-    margin-left: 4px;
-    margin-right: auto;
-    margin-bottom: -20px;
-    bottom: 10px;
-  }
-    bar-card-value {
-    margin: 0px;
-  }
-  bar-card-name {
-    margin: 0px;
-  }
-  bar-card-max {
-    margin: 0px;
-    margin-left: auto;
-    margin-top: -20px;
-    top: 10px;
-  }
-  bar-card-divider {
-    display: none;
-  }
-title: Custom CSS Layout
-type: 'custom:bar-card'
+type: 'custom:list2bars-card'
 ```
 
 ## Credits
 
-Inspired by [Big Number Card](https://github.com/ciotlosm/custom-lovelace/tree/master/bignumber-card) by [ciotlosm](https://github.com/ciotlosm).
+Inspired by [Bar Card](https://github.com/custom-cards/bar-card) and [Mini Graph Card](https://github.com/kalkih/mini-graph-card).
 
 ## Links
 

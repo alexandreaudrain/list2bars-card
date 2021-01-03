@@ -164,15 +164,15 @@ class ActionHandler extends HTMLElement implements ActionHandler {
   }
 }
 
-customElements.define('action-handler-bar', ActionHandler);
+customElements.define('action-handler-list2bars', ActionHandler);
 
 const getActionHandler = (): ActionHandler => {
   const body = document.body;
-  if (body.querySelector('action-handler-bar')) {
-    return body.querySelector('action-handler-bar') as ActionHandler;
+  if (body.querySelector('action-handler-list2bars')) {
+    return body.querySelector('action-handler-list2bars') as ActionHandler;
   }
 
-  const actionhandler = document.createElement('action-handler-bar');
+  const actionhandler = document.createElement('action-handler-list2bars');
   body.appendChild(actionhandler);
 
   return actionhandler as ActionHandler;

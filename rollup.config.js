@@ -32,7 +32,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/list2bars.ts',
+    input: 'src/list2bars-card.ts',
     output: {
       dir: 'dist',
       format: 'es',
