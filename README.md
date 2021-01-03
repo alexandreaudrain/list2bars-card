@@ -58,7 +58,7 @@ icon: 'mdi:water-pump'
 | color | string | var(--custom-bar-card-color, var(--primary-color)) | Default color of each bars, unless it's overwritten by severity. See [Severity Options](#severity-options).
 | color_background | boolean | true | Displays a background behind each bar.
 | complementary | boolean | false | Displays complementary value (max - state_value) instead state value.
-| decimal | number | none | The amount of decimals to be displayed for the value.
+| decimal | number | none  | The amount of decimals to be displayed for the value.
 | direction | string | right | Direction of the bar. `right`, `up`.
 | height | string | 40px | Defines the height of each bars.
 | icon | string | icon | Defines the icon to be displayed.
