@@ -6,8 +6,10 @@ My first TypeScript development, and my first Home Assistant experience, so plea
 It's really inspired (/ copied) from the excellent Bar Card and Mini Graph card ([Credits](#credits)).
 
 I was looking for a card to display some values returned by sensors in the form of lists (Suez water, Enedis linky, ...). Unfortunatly, it's not the way Home Assistant operates with normal sensors (I couldn't choose what value to display and when it occured).
-With list2bars-card, you can rendered values like these (default state / this_month_consumption / last_year_overall / ...) :
+With list2bars-card, you can rendered values like in the following examples (default state / this_month_consumption / last_year_overall / ...).
 
+Lists are lists of pairs "name:value" like ['name1':'value1', 'name2':'value2', ...]
+For example :
 ```yaml
 attribution: Data provided by toutsurmoneau.fr
 this_month_consumption:
@@ -41,6 +43,22 @@ friendly_name: Suez Water Client
 icon: 'mdi:water-pump'
 ```
 
+I recently added support for list of objects, like [{'name':'name1', 'value':'value1', ...}, {'name':'name2', 'value':'value2', ...}, ...].
+For example :
+```yaml
+risks:
+  - pollenName: Tilleul
+    level: 0
+  - pollenName: Ambroisies
+    level: 0
+  ...
+  - pollenName: Saule
+    level: 0
+  - pollenName: Cupressacées
+    level: 0
+friendly_name: AlertePollens
+```
+
 ## [Examples](#examples-1)
 
 ![Right](https://github.com/alexandreaudrain/list2bars-card/blob/main/images/right.jpg?raw=true)
@@ -54,6 +72,8 @@ icon: 'mdi:water-pump'
 | type | string | **Required** | `custom:list2bars-card`
 | entity | string | **Required** | Entity with states as a list, or a simple state
 | attribute | string | none | Tells which values should be displayed. See [Attribute Options](#attribute-options).
+| object_key |string | none | If dealing with a list of objects, tells which attribute should be used as "name"
+| object_value |string | none | If dealing with a list of objects, tells which attribute should be used as "value"
 | background | boolean | true | Displays a background behind the card.
 | color | string | var(--custom-bar-card-color, var(--primary-color)) | Default color of each bars, unless it's overwritten by severity. See [Severity Options](#severity-options).
 | color_background | boolean | true | Displays a background behind each bar.
@@ -61,7 +81,7 @@ icon: 'mdi:water-pump'
 | decimal | number | none | The amount of decimals to be displayed for the value.
 | direction | string | right | Direction of the bar. `right`, `up`.
 | height | string | 40px | Defines the height of each bars.
-| icon | string | icon | Defines the icon to be displayed.
+| icon | string | Entity icon or domain icon | Defines the icon to be displayed.
 | index_from | number | 1 | Index where to start display. See [Index Options](#index-options).
 | index_to | number | length of your list | Index where to end display. See [Index Options](#index-options).
 | limit_value | boolean | false | Limits value displayed to `min` and `max` value.
@@ -79,6 +99,12 @@ icon: 'mdi:water-pump'
 | `none` | will display default entity state
 | attribute name (single data) | will display attribute's value
 | attribute name (list) | will display list instead of state value
+
+About lists :
+- if you're dealing with lists of pairs : "name:value" like ['name1':'value1', 'name2':'value2', ...]
+this card will use the first part of the pair as label, and the second one as value
+- if you're dealing with lists of objects :  [{'name':'name1', 'value':'value1', ...}, {'name':'name2', 'value':'value2', ...}, ...].
+you should use "object_key" and "object_value" to specify which attributes the card must use as label and value.
 
 ## Index Options
 
