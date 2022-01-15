@@ -15,6 +15,8 @@ export interface List2BarsCardConfig {
   max: number;
   min: number;
   name: string;
+  object_key: string;
+  object_value: string;
   positions: any;
   severity: any;
   title: string;

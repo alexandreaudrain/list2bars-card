@@ -164,6 +164,22 @@ export class List2BarsCardEditor extends LitElement implements LovelaceCardEdito
                       .configObject=${this._config}
                     ></paper-input>
                     <paper-input
+                      label="Object key"
+                      @value-changed=${this._valueChanged}
+                      .value="${this._config.object_key ? this._config.object_key : ''}"
+                      editable
+                      .configAttribute=${'object_key'}
+                      .configObject=${this._config}
+                    ></paper-input>
+                    <paper-input
+                      label="Object value"
+                      @value-changed=${this._valueChanged}
+                      .value="${this._config.object_value ? this._config.object_value : ''}"
+                      editable
+                      .configAttribute=${'object_value'}
+                      .configObject=${this._config}
+                    ></paper-input>
+                    <paper-input
                       class="value-number"
                       type="number"
                       label="From index"
@@ -274,14 +290,14 @@ export class List2BarsCardEditor extends LitElement implements LovelaceCardEdito
                       `
                     : ''}
                 </div>
-                <paper-input
+                <ha-icon-picker
                   label="Icon"
                   .value="${config.icon ? config.icon : ''}"
                   editable
                   .configAttribute=${'icon'}
                   .configObject=${config}
                   @value-changed=${this._valueChanged}
-                ></paper-input>
+                ></ha-icon-picker>
                 <paper-input
                   label="Height"
                   .value="${config.height ? config.height : ''}"

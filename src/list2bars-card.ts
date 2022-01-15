@@ -176,14 +176,29 @@ export class List2BarsCard extends LitElement {
     // If attribute is defined use attribute value as bar value.
     if (config.attribute) {
       if (typeof state.attributes[config.attribute] == 'number') {
+        // we have a value => use it
         columnsArray.push({ name: name, state: state.attributes[config.attribute] });
       } else {
-        for (const item in state.attributes[config.attribute]) {
-          // Parse list
-          const cstate = state.attributes[config.attribute][item];
-          columnsArray.push({ name: item, state: cstate });
-          if (!isNaN(Number(cstate))) {
-            config.max = Math.max(cstate, config.max);
+        // we have a list => parse it
+        if (config.object_key && config.object_key.length > 0) {
+          // user defined name/value for object to use
+          // list should be a list of objects like [{'name':'name1', 'value':'value1', ...}, {'name':'name2', 'value':'value2', ...}, ...]
+          for (const obj of state.attributes[config.attribute]) {
+            const cstate = obj[config.object_value];
+            columnsArray.push({ name: obj[config.object_key], state: cstate });
+            if (!isNaN(Number(cstate))) {
+              config.max = Math.max(cstate, config.max);
+            }
+          }
+        } else {
+          // user didn't defined name/value for object to use
+          // list should be a list of pairs "name:value" like ['name1':'value1', 'name2':'value2', ...]
+          for (const item in state.attributes[config.attribute]) {
+            const cstate = state.attributes[config.attribute][item];
+            columnsArray.push({ name: item, state: cstate });
+            if (!isNaN(Number(cstate))) {
+              config.max = Math.max(cstate, config.max);
+            }
           }
         }
       }
